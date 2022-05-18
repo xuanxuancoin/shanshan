@@ -1,59 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8" > 
-	<title>看看还有几天就见到宝贝啦</title>
-	<script>
-		var endTime = new Date('2021-7-14 00:00:00'),endSeconds = endTime.getTime();
-		var d = h = m = s = 0;
-		var id = setInterval(seckill,1000);
-		function seckill(){
-			var nowTime = new Date();
-			var remaining = parseInt((endSeconds-nowTime.getTime()) / 1000);
-			if(remaining > 0){
-				d = parseInt(remaining / (60 * 60 * 24) );
-				h = parseInt((remaining / (60 * 60)) % 24);
-				m = parseInt((remaining / 60) % 60);
-				s = parseInt(remaining % 60);
-				d = d < 10 ? '0' + d : d;
-				h = h < 10 ? '0' + h : h;
-				m = m < 10 ? '0' + m : m;
-				s = s < 10 ? '0' + s : s;
-			} else {
-				clearInterval(id);
-				d = h = m = s = '00';
-			}
-			document.getElementById('d').innerHTML = d + '天';
-			document.getElementById('h').innerHTML = h + '时';
-			document.getElementById('m').innerHTML = m + '分';
-			document.getElementById('s').innerHTML = s + '秒';
-		}
-	</script>
-	<style>
-		#d,#h,#m,#s{
-			margin-right: 10px;
-			float: left;
-			font-size: 3em;
-		}
-		.box{
-			vertical-align: middle;
-			width: 31%;
-			height: 60px;
-			margin-top: 20%;
-			margin-left: 35%;
-			opacity:0.5; 
-		}
-		body{
-			background: url(23.jpg) no-repeat;
-			background-size: cover;
-		}
-	</style>
-<body>
-	<div class="box">
-		<div id="d"></div>
-		<div id="h"></div>
-		<div id="m"></div>
-		<div id="s"></div>
-	</div>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script type="text/javascript" src="jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="vue.js"></script>
+    </head>
+    <style>
+        div {
+            width: 600px;
+            height: 600px;
+            margin: 100px auto;
+            z-index: 2;
+            position: relative;
+        }
+
+        video {
+            width: 90%;
+            height: 52%;
+            transform: scale(0.7, 0.995);
+            border-radius: 50px;
+            float: left;
+            top: -440px;
+            left: -2px;
+            z-index: -2;
+            position: relative;
+        }
+
+        img {
+            display: block;
+        }
+
+        .start, .next {
+            z-index: 5;
+            position: relative;
+        }
+
+        .start {
+            top: -700px;
+            left: 470px;
+        }
+
+        .next {
+            top: -625px;
+            left: 470px;
+        }
+    </style>
+    <body>
+        <div class="video-box">
+            <img src="TV.png">
+            <video id="video" src="1.mp4"></video>
+            <img class="start" src="button.png">
+            <img class="next" src="button.png">
+        </div>
+    </body>
+    <script>
+        $(".start").click(function () {
+            if ($(this).css("transform") == "none") {
+                $(this).css({transform: "rotate(45deg)"});
+                $("#video")[0].play();
+            } else {
+                $(this).css({transform: "none"});
+                $("#video")[0].pause();
+            }
+        });
+        var i = 0;
+        var j = 0;
+        var vnum = 4;
+        $(".next").click(function () {
+            i++;
+            j++;
+            $(".start").css({transform: "none"});
+            if (i % 4 == 0) {
+                $(this).css({transform: "none"});
+            } else {
+                $(this).css({transform: `rotate(${i * 45}deg)`});
+            }
+            if (j == vnum) {
+                j = 1;
+            }
+            $("#video").prop("src", `${j+1}.mp4`);
+        });
+    </script>
 </html>
